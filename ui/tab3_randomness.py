@@ -8,25 +8,31 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from lotto import generator
+from ui.widgets import ScrollableFrame
 
 DRAW_OPTIONS = [100, 1_000, 10_000, 100_000]
 
 
 class Tab3Randomness(ttk.Frame):
     def __init__(self, parent):
-        super().__init__(parent, padding=16)
+        super().__init__(parent)
         self._progress_queue = queue.Queue()
+        scroll = ScrollableFrame(self)
+        scroll.pack(fill="both", expand=True)
+        self.body = scroll.body
+        self.body.configure(padding=16)
         self._build()
 
     def _build(self):
-        ttk.Label(self, text="무작위성 실험", font=("Segoe UI", 15, "bold")).pack(anchor="w")
+        body = self.body
+        ttk.Label(body, text="무작위성 실험", font=("Segoe UI", 15, "bold")).pack(anchor="w")
         ttk.Label(
-            self,
+            body,
             text="가상 추첨을 여러 번 반복해 번호별 등장 빈도를 확인합니다.",
             foreground="#888888",
         ).pack(anchor="w", pady=(0, 12))
 
-        control_row = ttk.Frame(self)
+        control_row = ttk.Frame(body)
         control_row.pack(anchor="w", fill="x")
 
         self.count_label = ttk.Label(control_row, text=f"추첨 횟수: {DRAW_OPTIONS[0]:,}회", width=22)
@@ -39,20 +45,20 @@ class Tab3Randomness(ttk.Frame):
         )
         scale.pack(side="left", padx=(8, 0))
 
-        self.run_btn = ttk.Button(self, text="시뮬레이션 실행", bootstyle="primary", command=self.run)
+        self.run_btn = ttk.Button(body, text="시뮬레이션 실행", bootstyle="primary", command=self.run)
         self.run_btn.pack(anchor="w", pady=(12, 4))
 
-        self.progress = ttk.Progressbar(self, mode="determinate", length=300)
+        self.progress = ttk.Progressbar(body, mode="determinate", length=300)
         self.progress.pack(anchor="w", pady=(0, 12))
 
         self.fig = Figure(figsize=(9.0, 3.6), dpi=100)
         self.ax = self.fig.add_subplot(111)
         self._draw_empty_chart()
-        self.canvas = FigureCanvasTkAgg(self.fig, master=self)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=body)
         self.canvas.get_tk_widget().pack(fill="both", expand=True)
 
         ttk.Label(
-            self,
+            body,
             text="추첨 횟수를 늘려도 특정 번호가 계속 우세해지지 않는다 = 매회 독립적인 무작위 추첨",
             foreground="#888888",
             wraplength=560,

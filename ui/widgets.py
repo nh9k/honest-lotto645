@@ -67,6 +67,34 @@ def make_ball_row(
     return frame
 
 
+class ScrollableFrame(ttk.Frame):
+    """세로 스크롤이 가능한 컨테이너. self.body에 자식 위젯을 배치하면 된다.
+    화면 DPI/해상도에 따라 탭 내용이 창보다 커져도 잘리지 않도록 하기 위함."""
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        canvas = tk.Canvas(self, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(self, orient="vertical", command=canvas.yview)
+        self.body = ttk.Frame(canvas)
+
+        self.body.bind(
+            "<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all"))
+        )
+        window_id = canvas.create_window((0, 0), window=self.body, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+
+        canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+
+        canvas.bind("<Configure>", lambda e: canvas.itemconfig(window_id, width=e.width))
+
+        def _on_mousewheel(event):
+            canvas.yview_scroll(int(-1 * (event.delta / 120)), "units")
+
+        canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", _on_mousewheel))
+        canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
+
+
 class NumberGrid(ttk.Frame):
     """1~45 번호를 클릭해서 선택하는 그리드. max_select개까지 선택 가능."""
 

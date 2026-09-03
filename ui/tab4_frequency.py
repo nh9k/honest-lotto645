@@ -10,32 +10,38 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
 from lotto import api
+from ui.widgets import ScrollableFrame
 
 
 class Tab4Frequency(ttk.Frame):
     def __init__(self, parent):
-        super().__init__(parent, padding=16)
+        super().__init__(parent)
         self._progress_queue = queue.Queue()
+        scroll = ScrollableFrame(self)
+        scroll.pack(fill="both", expand=True)
+        self.body = scroll.body
+        self.body.configure(padding=16)
         self._build()
 
     def _build(self):
-        ttk.Label(self, text="실제 결과 빈도 분석", font=("Segoe UI", 15, "bold")).pack(anchor="w")
+        body = self.body
+        ttk.Label(body, text="실제 결과 빈도 분석", font=("Segoe UI", 15, "bold")).pack(anchor="w")
         ttk.Label(
-            self,
+            body,
             text="과거 빈도는 통계적으로 다음 회차 예측에 영향을 주지 않습니다.",
             foreground="#E5433D",
             font=("Segoe UI", 10, "bold"),
         ).pack(anchor="w", pady=(2, 12))
 
         self.mode = tk.StringVar(value="round")
-        mode_row = ttk.Frame(self)
+        mode_row = ttk.Frame(body)
         mode_row.pack(anchor="w")
         ttk.Radiobutton(mode_row, text="회차 범위", variable=self.mode, value="round",
                          command=self._refresh_inputs).pack(side="left")
         ttk.Radiobutton(mode_row, text="날짜 범위", variable=self.mode, value="date",
                          command=self._refresh_inputs).pack(side="left", padx=(12, 0))
 
-        self.input_area = ttk.Frame(self, padding=(0, 10))
+        self.input_area = ttk.Frame(body, padding=(0, 10))
         self.input_area.pack(anchor="w", fill="x")
 
         latest = api.estimate_latest_round()
@@ -47,28 +53,29 @@ class Tab4Frequency(ttk.Frame):
 
         self._refresh_inputs()
 
-        self.fetch_btn = ttk.Button(self, text="조회", bootstyle="primary", command=self.fetch)
+        self.fetch_btn = ttk.Button(body, text="조회", bootstyle="primary", command=self.fetch)
         self.fetch_btn.pack(anchor="w", pady=(6, 4))
 
-        self.progress = ttk.Progressbar(self, mode="determinate", length=300)
+        self.progress = ttk.Progressbar(body, mode="determinate", length=300)
         self.progress.pack(anchor="w", pady=(0, 4))
-        self.status_label = ttk.Label(self, text="", foreground="#888888")
+        self.status_label = ttk.Label(body, text="", foreground="#888888")
         self.status_label.pack(anchor="w", pady=(0, 8))
 
-        body = ttk.Frame(self)
-        body.pack(fill="both", expand=True)
+        chart_row = ttk.Frame(body)
+        chart_row.pack(fill="both", expand=True)
 
-        self.fig = Figure(figsize=(8.0, 3.4), dpi=100)
+        lists_frame = ttk.Frame(chart_row, padding=(16, 0, 0, 0), width=200)
+        lists_frame.pack(side="right", fill="y")
+        lists_frame.pack_propagate(False)
+
+        self.fig = Figure(figsize=(8.0, 3.2), dpi=100)
         self.ax = self.fig.add_subplot(111)
         self.ax.set_xlabel("번호")
         self.ax.set_ylabel("등장 횟수")
         self.ax.set_xticks(range(1, 46))
         self.ax.tick_params(axis="x", labelsize=6)
-        self.canvas = FigureCanvasTkAgg(self.fig, master=body)
+        self.canvas = FigureCanvasTkAgg(self.fig, master=chart_row)
         self.canvas.get_tk_widget().pack(side="left", fill="both", expand=True)
-
-        lists_frame = ttk.Frame(body, padding=(16, 0, 0, 0))
-        lists_frame.pack(side="left", fill="y")
 
         ttk.Label(lists_frame, text="빈도 상위 10개", font=("Segoe UI", 10, "bold")).pack(anchor="w")
         self.top_label = ttk.Label(lists_frame, text="-", justify="left")

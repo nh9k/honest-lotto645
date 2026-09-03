@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 cache/*.json
 build/
+scripts/capture/node_modules/
+scripts/capture/video_raw/
+apk-releases/

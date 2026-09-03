@@ -5,14 +5,13 @@
 > 실제 당첨을 예측하는 기능이 아니라 무작위성 학습·데이터 분석·재미 목적입니다.
 > 매크로/자동 구매 기능은 포함하지 않습니다.
 
-<!-- ================= 데모 영상 (준비 중) ================= -->
 ## 데모 영상
 
-| 강조 영상 | 기능 소개 영상 |
-|---|---|
-| _(추가 예정)_ | _(추가 예정)_ |
+실제 앱 화면을 녹화한 영상입니다 (음성 없음, 자막 포함). 썸네일을 클릭하면 mp4 파일이 열립니다.
 
-<!-- ========================================================= -->
+| 강조 영상 (차별점) | 기능 소개 영상 |
+|---|---|
+| [![강조 영상](docs/videos/thumbs/emphasis_thumb.png)](docs/videos/emphasis.mp4) | [![기능 소개 영상](docs/videos/thumbs/features_thumb.png)](docs/videos/features_walkthrough.mp4) |
 
 ## 왜 이름이 "6/45"인가요?
 
@@ -35,15 +34,61 @@
 
 ## 기능 (탭 7개)
 
-| # | 탭 이름 | 설명 | 스크린샷 |
-|---|---|---|---|
-| 1 | 번호 생성 | 1~45 중 중복 없이 6개를 무작위로 뽑습니다. "많이 겹치는 조합 피하기" 옵션으로 31 이하 숫자가 5개 이상인 조합을 제외할 수 있습니다. | _(추가 예정)_ |
-| 2 | 번호 자동완성 | 원하는 번호를 1~5개 직접 고르면, 나머지를 무작위로 채워 6개를 완성합니다. 직접 선택/자동완성 번호가 테두리 색으로 구분됩니다. | _(추가 예정)_ |
-| 3 | 무작위성 실험 | 100~100,000회 가상 추첨을 반복해 번호별 등장 빈도를 막대그래프로 보여줍니다. 횟수를 늘려도 특정 번호가 우세해지지 않는다는 걸 직접 확인할 수 있습니다. | _(추가 예정)_ |
-| 4 | 실제 결과 빈도 분석 | 동행복권 공식 API로 원하는 회차·날짜 범위의 실제 당첨번호를 수집해 번호별 빈도(상위/하위 10개 포함)를 분석합니다. | _(추가 예정)_ |
-| 5 | 등수 시뮬레이터 | 원하는 등수(1~5등)를 선택하면, 그 조건에 맞는 가상 당첨번호·내 번호 조합을 자동 구성해 등수별 당첨 조건을 체험할 수 있습니다. | _(추가 예정)_ |
-| 6 | 회차 결과 확인 | 원하는 회차를 선택하고 번호 6개를 직접 고르면, 실제 당첨번호와 비교해 등수를 판정합니다. | _(추가 예정)_ |
-| 7 | 추천 조합 (재미용) | 최근 회차 통계·구간 분산·연속번호 제한 등 규칙을 조합해 번호를 생성합니다. "실제 당첨 확률을 높이지 않는다"는 문구가 항상 함께 표시됩니다. | _(추가 예정)_ |
+데스크탑 프로토타입(Python) 실행 화면 기준 스크린샷입니다.
+
+### 1. 번호 생성
+1~45 중 중복 없이 6개를 무작위로 뽑습니다. "많이 겹치는 조합 피하기" 옵션으로 31 이하 숫자가 5개 이상인 조합을 제외할 수 있습니다.
+
+<img src="docs/screenshots/tab1_generate.png" width="720">
+
+### 2. 번호 자동완성
+원하는 번호를 1~5개 직접 고르면, 나머지를 무작위로 채워 6개를 완성합니다. 직접 선택/자동완성 번호가 테두리 색으로 구분됩니다.
+
+<img src="docs/screenshots/tab2_autocomplete.png" width="720">
+
+### 3. 무작위성 실험
+100~100,000회 가상 추첨을 반복해 번호별 등장 빈도를 막대그래프로 보여줍니다. 횟수를 늘려도 특정 번호가 우세해지지 않는다는 걸 직접 확인할 수 있습니다.
+
+<img src="docs/screenshots/tab3_randomness.png" width="720">
+
+### 4. 실제 결과 빈도 분석
+동행복권 공식 API로 원하는 회차·날짜 범위의 실제 당첨번호를 수집해 번호별 빈도(상위/하위 10개 포함)를 분석합니다.
+
+<img src="docs/screenshots/tab4_frequency.png" width="720">
+
+### 5. 등수 시뮬레이터
+"당첨번호 재추첨"으로 가상 당첨번호를 뽑고, 원하는 번호 6개를 직접 골라 "결과 확인"을 누르면 몇 등인지 판정합니다. 당첨번호는 결과 확인 전까지 공개되지 않습니다.
+
+<img src="docs/screenshots/tab5_rank_simulator.png" width="720">
+
+### 6. 회차 결과 확인
+원하는 회차를 선택하고 번호 6개를 직접 고르면, 실제 당첨번호와 비교해 등수를 판정합니다.
+
+<img src="docs/screenshots/tab6_check_result.png" width="720">
+
+### 7. 추천 조합 (재미용)
+최근 회차 통계·구간 분산·연속번호 제한 등 규칙을 조합해 번호를 생성합니다. "실제 당첨 확률을 높이지 않는다"는 문구가 항상 함께 표시됩니다.
+
+<img src="docs/screenshots/tab7_ai_recommend.png" width="720">
+
+## 모바일 앱 화면 (React Native)
+
+같은 기능을 React Native(Expo)로 구현한 모바일 앱 화면입니다.
+
+<table>
+<tr>
+<td><img src="docs/screenshots/mobile/tab1_generate.png" width="200"></td>
+<td><img src="docs/screenshots/mobile/tab2_autocomplete.png" width="200"></td>
+<td><img src="docs/screenshots/mobile/tab3_randomness.png" width="200"></td>
+<td><img src="docs/screenshots/mobile/tab4_frequency.png" width="200"></td>
+</tr>
+<tr>
+<td><img src="docs/screenshots/mobile/tab5_rank_simulator.png" width="200"></td>
+<td><img src="docs/screenshots/mobile/tab6_check_result.png" width="200"></td>
+<td><img src="docs/screenshots/mobile/tab7_ai_recommend.png" width="200"></td>
+<td></td>
+</tr>
+</table>
 
 ## 프로젝트 구조
 

@@ -19,8 +19,9 @@ GLOBAL_DISCLAIMER = (
 class LottoApp(tb.Window):
     def __init__(self):
         super().__init__(title="로또 6/45 번호 생성 및 데이터 분석", themename=LIGHT_THEME_NAME)
-        self.geometry("980x760")
-        self.minsize(760, 600)
+        self.geometry("1100x850")
+        self.minsize(900, 700)
+        self.state("zoomed")
         self._is_dark = False
         self._build()
 
